@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+
+    <div class="master-blaster">
+        <h1>{% trans %}Install app{% endtrans %}</h1>
+
+        <form action="{{ path("kurl_shopify_wishlist_install") }}" method="post" role="form" class="form-horizontal">
+            <fieldset>
+
+                <div class="form-group">
+                    <span class="help-block">{% trans %}This will install the app to your store{% endtrans %}</span>
+
+                    <div class="input-group">
+                        <span class="input-group-addon">{{ shop_http_scheme }}://</span>
+                        {{ form_widget(form.hostname, {attr: {class: "form-control", placeholder: 'Shop URL'|trans }}) }}
+                    </div>
+
+                    {{ form_rest(form) }}
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary bth-lrg">{% trans %}Install{% endtrans %}</button>
+                    <button type="button" class="btn btn-lrg">Cancel</button>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+
+{% endblock %}

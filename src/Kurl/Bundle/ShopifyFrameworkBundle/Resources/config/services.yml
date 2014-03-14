@@ -1,0 +1,7 @@
+parameters:
+#    kurl_shopify_framework.example.class: Kurl\Bundle\ShopifyFrameworkBundle\Example
+
+services:
+#    kurl_shopify_framework.example:
+#        class: %kurl_shopify_framework.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

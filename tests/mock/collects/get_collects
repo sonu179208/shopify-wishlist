@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+
+{
+  "collects": [
+    {
+      "collection_id": 841564295,
+      "created_at": null,
+      "featured": false,
+      "id": 841564295,
+      "product_id": 632910392,
+      "sort_value": "0000000001",
+      "updated_at": null,
+      "position": 1
+    }
+  ]
+}

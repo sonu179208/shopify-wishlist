@@ -1,0 +1,8 @@
+parameters:
+    kurl_shopify.registry.class: "Kurl\Bundle\ShopifyBundle\Entity\Registry"
+
+services:
+    kurl_shopify.registry:
+        class: Kurl\Bundle\ShopifyBundle\Service\RegistryService
+        scope: request
+        arguments: ["@doctrine.orm.entity_manager", "%kurl_shopify.registry.class%", "@request"]

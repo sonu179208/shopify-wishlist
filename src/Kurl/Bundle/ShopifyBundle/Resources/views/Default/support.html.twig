@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1>{% trans %}App Support!{% endtrans %}</h1>
+            <p>{% trans %}This is the app support page.{% endtrans %}</p>
+            <p><a class="btn btn-primary btn-lg" href="{{ shop_http_scheme }}://{{ shop }}">Return to the shop</a></p>
+        </div>
+    </div>
+
+{% endblock %}

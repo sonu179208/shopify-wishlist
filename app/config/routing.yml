@@ -1,0 +1,4 @@
+kurl_shopify:
+    resource: "@KurlShopifyBundle/Controller/"
+    type:     annotation
+    prefix:   /

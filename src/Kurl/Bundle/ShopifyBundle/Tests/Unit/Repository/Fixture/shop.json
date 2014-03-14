@@ -1,0 +1,12 @@
+{
+    "shopify_shop": {
+        "table": [
+            "id",
+            "myshopify_domain",
+            "access_token"
+        ],
+        "rows": [
+            [1, "example.myshopify.com", "token"]
+        ]
+    }
+}

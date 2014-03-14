@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="The kurl.co.uk web app" default="test">
+
+    <target name="prepare" depends="clean" description="Prepares the build directory">
+        <mkdir dir="${basedir}/bin" />
+        <mkdir dir="${basedir}/build" />
+        <mkdir dir="${basedir}/build/log" />
+        <mkdir dir="${basedir}/build/report/coverage" />
+    </target>
+
+    <target name="clean" description="Removes previous builds">
+        <delete includeemptydirs="true" dir="build" quiet="true" />
+        <delete includeemptydirs="true" dir="data" quiet="true"/>
+        <delete includeemptydirs="true" dir="app/cache" quiet="true"/>
+        <delete includeemptydirs="true" dir="app/logs" quiet="true"/>
+        <delete includeemptydirs="true" dir="vendor" quiet="true"/>
+        <delete file="composer.lock"/>
+        <delete file="composer.phar"/>
+    </target>
+
+    <target name="init" depends="prepare" description="Sets up all components required for the project">
+    </target>
+
+    <target name="build" depends="prepare, test" description="The default target, runs the complete build">
+        <echo message="Copying files to build directory..." />
+    </target>
+
+    <target name="test" description="Executes unit tests">
+        <exec executable="bin/phpunit" failonerror="true">
+            <arg value="--configuration" />
+            <arg value="./app/phpunit.xml.dist" />
+        </exec>
+    </target>
+
+    <!-- TODO remove this test once shopify is in its own repo. -->
+    <target name="test-shopify" description="Executes all the tests with reports">
+        <exec executable="bin/phpunit" failonerror="true">
+            <arg value="--configuration" />
+            <arg value="./app/phpunit.xml.dist" />
+            <arg value="--coverage-html" />
+            <arg value="./build/report/coverage" />
+        </exec>
+    </target>
+
+    <target name="report-coverage" description="Executes all the tests with reports">
+        <exec executable="bin/phpunit" failonerror="true">
+            <arg value="--configuration" />
+            <arg value="./app/phpunit.xml.dist" />
+            <arg value="--coverage-html" />
+            <arg value="./build/report/coverage" />
+        </exec>
+    </target>
+
+    <target name="clear-cache" description="Clears the project cache">
+        <exec executable="php" failonerror="true">
+            <arg value="app/console" />
+            <arg value="cache:clear" />
+            <arg value="--env=dev" />
+        </exec>
+    </target>
+
+    <target name="freshen-persistence-dev" description="Deletes and recreates the dev database.">
+        <!-- Bye bye database -->
+        <exec executable="php">
+            <arg value="app/console" />
+            <arg value="doctrine:database:drop" />
+            <arg value="--force" />
+        </exec>
+
+        <!-- Hello fresh new database, let's hope the person who setup my.cnf used UTF-8 as the default charset :) -->
+        <exec executable="php" failonerror="true">
+            <arg value="app/console" />
+            <arg value="doctrine:database:create" />
+        </exec>
+
+        <exec executable="php" failonerror="true">
+            <arg value="app/console" />
+            <arg value="doctrine:schema:create" />
+        </exec>
+    </target>
+</project>

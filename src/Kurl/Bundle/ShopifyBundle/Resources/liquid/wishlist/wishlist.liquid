@@ -1,0 +1,76 @@
+<div id="col-main" class="full content">
+    <div id="page-header">
+        <h2 id="page-title">Wishlist</h2>
+    </div>
+    {% if customer %}
+
+        <table class="items">
+            <colgroup>
+                <col class="checkout-image" />
+                <col class="checkout-info" />
+                <col class="checkout-price" />
+                <col class="checkout-quantity" />
+                <col class="checkout-delete" />
+                <col class="checkout-delete" />
+            </colgroup>
+
+            <thead>
+            <tr class="top-labels">
+                <th class="empty">&nbsp;</th>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th class="empty">&nbsp;</th>
+                <th class="empty">&nbsp;</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% assign wishlist_id = 'wishlist-' | append: customer.id %}
+
+            {% for product in collections[wishlist_id].products %}
+
+                {% capture product_id %}{{ product.id }}{% endcapture %}
+                {% assign product_id_size = product_id | size %}
+                {% assign difference_one = tag_size | minus: product_id_size %}
+                {% assign difference = difference_one | money_without_currency | times: 100 %}
+                {% capture difference_check %}{{ difference | divided_by: 2 }}{% endcapture %}
+                {% assign check = difference_check | split: '.' %}
+                {% if check[1] contains "5" %}{% assign display = "false" %}{% else %}{% assign display = "true" %}{% endif %}
+
+
+                <tr class="item {{ product.handle }}">
+                    <td>
+                        <a href="{{ product.url }}">
+                            <img src="{{ product.featured_image | product_img_url: 'thumb' }}"  alt="{{ product.title }}" />
+                        </a>
+                    </td>
+                    <td><a href="{{ product.url }}">{{ product.title }}</a></td>
+                    <td>{{ product.price | money }}</td>
+                    <td>{{ difference_check }}</td>
+
+                    <td>
+                        {% for variant in product.variants limit:1 %}
+                            <form action="/cart/add" method="post">
+                                <input type="hidden" name="id" value="{{ variant.id }}" />
+                                <input class="btn" type="submit" value="Add to cart" id="addtocart" />
+                            </form>
+                        {% endfor %}
+                    </td>
+
+                    <td>
+                        {% form 'customer' %}
+                        <input type="hidden" id="contact_email" name="contact[email]" value="{{ customer.email }}"/>
+                        <input type="hidden" name="contact[tags]" id="contact_tags" value="x{{ tag_id }}" />
+                        <input class="btn" type='submit' value="Remove" />
+                        {% endform %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>To create a wish list you must <a href="/account/login">sign in</a> or <a href="/account/register">create an account</a>.</p>
+    {% endif %}
+</div>

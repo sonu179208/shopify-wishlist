@@ -1,0 +1,25 @@
+{
+    "shopify_shop": {
+        "table": [
+            "id",
+            "myshopify_domain",
+            "access_token"
+        ],
+        "rows": [
+            [1, "example.myshopify.com", "token"]
+        ]
+    },
+
+    "shopify_registry": {
+        "table": [
+            "id",
+            "shop_id",
+            "customer_id",
+            "name",
+            "active"
+        ],
+        "rows": [
+            [666, 1, 1, 1, "default"]
+        ]
+    }
+}

@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+
+    <div class="master-blaster">
+        <h1>{% trans %}Application installed!{% endtrans %}</h1>
+        <p class="lead">{% trans %}Pat yourself on the back.{% endtrans %}</p>
+        <p><a class="btn btn-primary btn-lg" href="{{ shop_http_scheme }}://{{ shop }}">Visit shop</a></p>
+    </div>
+
+{% endblock %}

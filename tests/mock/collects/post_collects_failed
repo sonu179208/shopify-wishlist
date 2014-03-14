@@ -1,0 +1,15 @@
+HTTP/1.1 422 Unprocessable Entity
+
+{
+  "errors": {
+    "shop_id": [
+      "can't be blank"
+    ],
+    "product": [
+      "can't be blank"
+    ],
+    "collection": [
+      "can't be blank"
+    ]
+  }
+}

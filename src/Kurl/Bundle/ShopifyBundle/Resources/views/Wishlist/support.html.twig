@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+
+    <div class="master-blaster">
+        <h1>{% trans %}Application Support!{% endtrans %}</h1>
+        <p class="lead">{% trans %}This is where you would get application support if there was any.{% endtrans %}</p>
+
+        {% if shop is defined and shop_http_scheme is defined %}
+        <p><a class="btn btn-primary btn-lg" href="{{ shop_http_scheme }}://{{ shop }}">Visit shop</a></p>
+        {% endif %}
+    </div>
+
+{% endblock %}

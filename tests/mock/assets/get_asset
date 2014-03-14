@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+
+{
+  "asset": {
+    "key": "templates/index.liquid",
+    "public_url": null,
+    "value": "<!-- LIST 3 PER ROW -->\n<h2>Featured Products</h2>\n<table id=\"products\" cellspacing=\"0\" cellpadding=\"0\">\n\n</table>\n<!-- /LIST 3 PER ROW  -->\n\n  <div id=\"articles\">\n  \t\n\n    <div class=\"article\">\n    \n      <div class=\"article-body textile\">\n  \t  In <em>Admin &gt; Blogs &amp; Pages</em>, create a page with the handle <strong><code>frontpage</code></strong> and it will show up here.<br />\n  \t  \n      </div>\n  \t\n    </div>\n\n  </div>\n\n",
+    "created_at": "2010-07-12T15:31:50-04:00",
+    "updated_at": "2010-07-12T15:31:50-04:00",
+    "content_type": "text/x-liquid",
+    "size": 1068,
+    "theme_id": 828155753
+  }
+}

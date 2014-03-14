@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        <meta charset="utf-8"/>
+        <title>{% block title %}{% endblock %}</title>
+
+        <meta name="viewport" content="width=device-width, user-scalable=yes"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        {% block stylesheets %}
+            {% stylesheets
+            '@bootstrap_css'
+            '@KurlShopifyBundle/Resources/public/css/*.css'
+            combine=true %}
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet">
+            {% endstylesheets %}
+        {% endblock %}
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}"/>
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="flash-message">
+        <em>Notice</em>: {{ flashMessage }}
+    </div>
+    {% endfor %}
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            <p class="text-muted">A <a href="http://kurl.co.uk/">Kurl Ltd</a> product, &copy; {{ "now"|date("Y") }}</p>
+        </div>
+    </div>
+
+    <!-- filter='?yui_js' -->
+
+{% block javascripts %}
+    {% javascripts '@jquery' '@bootstrap_js' combine=true %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% endblock %}
+</body>
+</html>
