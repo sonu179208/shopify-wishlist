@@ -81,6 +81,9 @@ class DefaultController extends Controller
         if (true === $this->getRequest()->isMethod('POST')) {
             $form->handleRequest($this->getRequest());
 
+            // TODO Figure out why this hack even works.
+            $client->setShopHostname($this->getShop()->getHostname());
+
             if (true === $form->isValid()) {
                 return $this->redirect(
                     $client->buildAuthorisationUrl(
