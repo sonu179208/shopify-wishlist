@@ -17,10 +17,6 @@
                     "type": "file"
                 }
             }
-        },
-        {
-            "type": "git",
-            "url": "git@bitbucket.org:kurlltd/shopify-sdk-php.git"
         }
     ],
 
