@@ -2,6 +2,8 @@
 
 Website http://shopify.kurl.co.uk
 
+http://docs.shopify.com/themes/theme-templates/customers
+
 ## Setup instructions
 
 ### Update file permissions:

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        <meta charset="utf-8"/>
+        <title>{% block title %}{% endblock %}</title>
+
+        <meta name="viewport" content="width=device-width, user-scalable=yes"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        {% block stylesheets %}
+        {% endblock %}
+
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            <p class="text-muted">A <a href="http://kurl.co.uk/">Kurl Ltd</a> product, &copy; {{ "now"|date("Y") }}</p>
+        </div>
+    </div>
+
+{% endblock %}
+</body>
+</html>

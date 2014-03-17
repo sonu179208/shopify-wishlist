@@ -29,7 +29,19 @@ class WishlistController extends DefaultController
      */
     public function addAction()
     {
-        $service = new WishlistService($this->serviceFactory);
+        $service = new WishlistService($this->getServiceFactory());
         $added = $service->add($this->getRequest()->get('customer_id'), $this->getRequest()->get('product_id'));
+    }
+
+    /**
+     * Removes a product from the customer's wishlist.
+     *
+     * @Template()
+     * @Route("/remove")
+     */
+    public function removeAction()
+    {
+        $service = new WishlistService($this->getServiceFactory());
+        $removed = $service->remove($this->getRequest()->get('customer_id'), $this->getRequest()->get('product_id'));
     }
 }

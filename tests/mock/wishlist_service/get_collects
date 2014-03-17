@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+
+{
+    "collects": [
+        {
+            "collection_id": 1063001313,
+            "created_at": "2013-12-02T11:13:47-05:00",
+            "featured": false,
+            "id": 512677601,
+            "product_id": 159666449,
+            "sort_value": "Brivo MR355 1.5T",
+            "updated_at": "2013-12-02T11:13:47-05:00",
+            "position": 0
+        }
+    ]
+}

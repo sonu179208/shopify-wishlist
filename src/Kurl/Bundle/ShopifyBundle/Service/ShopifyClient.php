@@ -2,8 +2,9 @@
 /**
  * ShopifyClient.phpnt.php -
  * TODO this does not check the signature of return values, it *must*
+ *
  * @created 06/09/2013 12:54
- * @author chris
+ * @author  chris
  */
 
 namespace Kurl\Bundle\ShopifyBundle\Service;
@@ -21,6 +22,7 @@ class ShopifyClient
 {
     /**
      * The shopify default hostname.
+     *
      * @var string
      */
     const SHOPIFY_HOSTNAME = 'myshopify.com';
@@ -40,28 +42,32 @@ class ShopifyClient
     protected $secret;
 
     /**
-     * The shop.
-     * @var Shop
+     * The shop url.
+     *
+     * @var string
      */
-    protected $shop;
+    protected $shopHostname;
 
     /**
      * The default options.
+     *
      * @var array
      */
     protected $defaults = array(
-        'root_hostname' => self::SHOPIFY_HOSTNAME,
+        'root_hostname'    => self::SHOPIFY_HOSTNAME,
         'authorise_scheme' => 'https',
     );
 
     /**
      * The client options.
+     *
      * @var array
      */
     protected $options;
 
     /**
      * The http client.
+     *
      * @var Client
      */
     protected $httpClient;
@@ -69,14 +75,14 @@ class ShopifyClient
     /**
      * Creates a new client.
      *
-     * @param Shop   $shop    the shop to poll
-     * @param string $apiKey  the api key
-     * @param string $secret  the secret
-     * @param array  $options the options
+     * @param Request $request the shop url to poll
+     * @param string  $apiKey  the api key
+     * @param string  $secret  the secret
+     * @param array   $options the options
      */
-    public function __construct(Shop $shop, $apiKey, $secret, array $options = array())
+    public function __construct(Request $request, $apiKey, $secret, array $options = array())
     {
-        $this->setShop($shop);
+        $this->setShopHostname($request->get('shop'));
         $this->setApiKey($apiKey);
         $this->setSecret($secret);
         $this->setOptions(array_merge($this->defaults, $options));
@@ -85,7 +91,7 @@ class ShopifyClient
     /**
      * Builds an authorisation url.
      *
-     * @param array       $scope an array of scopes names
+     * @param array       $scope       an array of scopes names
      * @param string|null $redirectUrl the optional callback url TODO the redirect URL seems pointless as it *must* match that used at app creation time
      *
      * @return string the authorisation URL
@@ -94,18 +100,16 @@ class ShopifyClient
     {
         $params = array(
             'client_id' => $this->getApiKey(),
-            'scope' => implode(',', $scope)
+            'scope'     => implode(',', $scope)
         );
 
-        if (null !== $redirectUrl)
-        {
+        if (null !== $redirectUrl) {
             $params['redirect_url'] = $redirectUrl;
         }
 
         $request = array();
 
-        foreach ($params as $name => $value)
-        {
+        foreach ($params as $name => $value) {
             $request[] = implode('=', array($name, urlencode($value)));
         }
 
@@ -129,9 +133,9 @@ class ShopifyClient
             null,
             array(
                 'query' => array(
-                    'client_id' => $this->getApiKey(),
+                    'client_id'     => $this->getApiKey(),
                     'client_secret' => $this->getSecret(),
-                    'code' => $token,
+                    'code'          => $token,
                 )
             )
         );
@@ -144,13 +148,13 @@ class ShopifyClient
     /**
      * Sets shop.
      *
-     * @param Shop $shop
+     * @param string $shop the shop name
      *
      * @return ShopifyClient
      */
-    public function setShop(Shop $shop)
+    public function setShopHostname($shop)
     {
-        $this->shop = $shop;
+        $this->shopHostname = $shop;
 
         return $this;
     }
@@ -160,9 +164,9 @@ class ShopifyClient
      *
      * @return Shop
      */
-    public function getShop()
+    public function getShopHostname()
     {
-        return $this->shop;
+        return $this->shopHostname;
     }
 
     /**
@@ -172,7 +176,7 @@ class ShopifyClient
      */
     public function getShopUrl()
     {
-        return $this->getOption('authorise_scheme') . '://' . $this->getShop()->getHostname();
+        return $this->getOption('authorise_scheme') . '://' . $this->getShopHostname();
     }
 
     /**
@@ -249,7 +253,8 @@ class ShopifyClient
 
     /**
      * Gets an option value.
-     * @param string $name the option name
+     *
+     * @param string $name    the option name
      * @param null   $default the value if the option is not set
      *
      * @return mixed the option value
@@ -257,20 +262,22 @@ class ShopifyClient
     public function getOption($name, $default = null)
     {
         $options = $this->getOptions();
+
         return true === array_key_exists($name, $options) ? $options[$name] : $default;
     }
 
     /**
      * Sets an option value.
      *
-     * @param string $name the option name
-     * @param mixed $value the option value
+     * @param string $name  the option name
+     * @param mixed  $value the option value
      *
      * @return ShopifyClient
      */
     public function setOption($name, $value)
     {
         $this->options[(string)$name] = $value;
+
         return $this;
     }
 
@@ -295,8 +302,7 @@ class ShopifyClient
      */
     public function getHttpClient()
     {
-        if (null === $this->httpClient)
-        {
+        if (null === $this->httpClient) {
             $this->httpClient = new Client($this->getShopUrl());
         }
 

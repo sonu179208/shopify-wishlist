@@ -1,0 +1,15 @@
+HTTP/1.1 201 Created
+
+{
+  "custom_collection": {
+    "body_html": null,
+    "handle": "macbooks",
+    "id": 1063001313,
+    "published_at": "2014-03-13T19:14:22-04:00",
+    "published_scope": "global",
+    "sort_order": "alpha-asc",
+    "template_suffix": null,
+    "title": "Macbooks",
+    "updated_at": "2014-03-13T19:14:22-04:00"
+  }
+}

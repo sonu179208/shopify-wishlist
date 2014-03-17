@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+
+{
+  "custom_collections": [
+    {
+        "body_html": null,
+        "handle": "wishlist-138301351",
+        "id": 1063001313,
+        "published_at": "2014-03-13T19:14:22-04:00",
+        "published_scope": "global",
+        "sort_order": "alpha-asc",
+        "template_suffix": null,
+        "title": "wishlist-138301351",
+        "updated_at": "2014-03-13T19:14:22-04:00"
+    }
+  ]
+}

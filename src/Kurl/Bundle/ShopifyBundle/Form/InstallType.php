@@ -48,6 +48,6 @@ class InstallType extends AbstractType
      */
     public function getName()
     {
-        return 'kurl_shopify_registry_form_install';
+        return 'kurl_shopify_wishlist_form_install';
     }
 }

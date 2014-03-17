@@ -8,6 +8,8 @@
 
 error_reporting(-1);
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
+
 // Ensure that composer has installed all dependencies
 if (!file_exists(dirname(__DIR__) . '/composer.lock')) {
     die("Dependencies must be installed using composer:\n\nphp composer.phar install\n\n"
@@ -32,3 +34,5 @@ $serviceBuilder = \Shopify\Common\Shopify::factory(
 
 Guzzle\Tests\GuzzleTestCase::setServiceBuilder($serviceBuilder);
 Guzzle\Common\Version::$emitWarnings = true;
+
+AnnotationRegistry::registerLoader(array($loader, 'loadClass'));

@@ -1,11 +1,13 @@
 {% extends '::base.html.twig' %}
 {% block content %}
 
-    <div class="jumbotron">
-        <div class="container">
-            <h1>{% trans %}App Preferences!{% endtrans %}</h1>
-            <p>{% trans %}These are the app preferences.{% endtrans %}</p>
-        </div>
+    <div class="master-blaster">
+        <h1>{% trans %}Application Preferences!{% endtrans %}</h1>
+        <p class="lead">{% trans %}These are the app preferences.{% endtrans %}</p>
+
+        {% if shop is defined and shop_http_scheme is defined %}
+            <p><a class="btn btn-primary btn-lg" href="{{ shop_http_scheme }}://{{ shop }}">Visit shop</a></p>
+        {% endif %}
     </div>
 
 {% endblock %}

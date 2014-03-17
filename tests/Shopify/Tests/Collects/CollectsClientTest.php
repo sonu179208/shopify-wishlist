@@ -12,7 +12,6 @@ use Shopify\Collects\CollectsClient;
  * @created 09/12/2013 15:39
  * @author  chris
  */
-
 class CollectsClientTest extends GuzzleTestCase
 {
     /**
@@ -139,5 +138,36 @@ class CollectsClientTest extends GuzzleTestCase
         $client->addToCollection(
             array('collect' => array('body' => 'foobar'))
         );
+    }
+
+    /**
+     * Tests removing an item from a collection.
+     */
+    public function testRemoveFromCollection()
+    {
+        /** @var CollectsClient $client */
+        $client = $this->getServiceBuilder()->get('collects');
+
+        $history = new HistoryPlugin();
+        $client->addSubscriber($history);
+
+        $this->setMockResponse(
+            $client,
+            array(
+                'collects/delete_collects',
+            )
+        );
+
+        /** @var \Guzzle\Service\Resource\Model $result */
+        $result = $client->removeFromCollection(array('id' => 632910392));
+
+        $this->assertInstanceOf('Guzzle\Service\Resource\Model', $result);
+        $this->assertNull($result->get('collect'));
+
+        $this->assertEquals(
+            'https://apple.myshopify.com/admin/collects/632910392.json',
+            $history->getLastRequest()->getUrl()
+        );
+        $this->assertEquals('DELETE', $history->getLastRequest()->getMethod());
     }
 }

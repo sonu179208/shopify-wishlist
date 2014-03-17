@@ -43,8 +43,7 @@
         "leafo/lessphp": "v0.4.0",
         "hwi/oauth-bundle": "0.3.*@dev",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "kurl/orm-test": "dev-master",
-        "kurl-ltd/shopify-sdk-php": "0.0.*",
+        "kurl/common": "dev-develop",
 
         "guzzle/guzzle": "~3.7"
     },

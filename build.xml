@@ -45,9 +45,9 @@
     <target name="report-coverage" description="Executes all the tests with reports">
         <exec executable="bin/phpunit" failonerror="true">
             <arg value="--configuration" />
-            <arg value="./app/phpunit.xml.dist" />
+            <arg value="./phpunit.xml.dist" />
             <arg value="--coverage-html" />
-            <arg value="./build/report/coverage" />
+            <arg value="./build/coverage" />
         </exec>
     </target>
 

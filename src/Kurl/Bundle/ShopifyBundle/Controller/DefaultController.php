@@ -5,6 +5,7 @@ namespace Kurl\Bundle\ShopifyBundle\Controller;
 use Guzzle\Service\Builder\ServiceBuilderInterface;
 use Kurl\Bundle\ShopifyBundle\Entity\Shop;
 use Kurl\Bundle\ShopifyBundle\Form\InstallType;
+use Kurl\Bundle\ShopifyBundle\Repository\ShopRepository;
 use Kurl\Bundle\ShopifyBundle\Service\ShopifyClient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -24,6 +25,7 @@ class DefaultController extends Controller
 
     /**
      * A collection of clients.
+     *
      * @var ServiceBuilderInterface
      */
     protected $serviceFactory;
@@ -39,12 +41,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->redirect(
-            $this->generateUrl(
-                str_replace('_index', '_install', $request->attributes->get('_route')),
-                $request->request->all()
-            )
-        );
+        return array();
     }
 
     /**
@@ -57,13 +54,7 @@ class DefaultController extends Controller
      */
     public function installAction()
     {
-        /** @var ShopRepository $repo */
-        $repo = $this->get('doctrine.orm.entity_manager')->getRepository('Kurl\Bundle\ShopifyBundle\Entity\Shop');
-
-        if (null === $shop = $repo->getByHostName($this->getRequest()->get('shop'))) {
-            $shop = new Shop();
-            $shop->setHostname($this->getRequest()->get('shop'));
-        }
+        $shop = $this->getShop();
 
         if (null !== $shop->getAccessToken()) {
             return $this->redirect(
@@ -73,19 +64,17 @@ class DefaultController extends Controller
 
         $form = $this->createForm(new InstallType(), $shop);
 
-        // TODO the shopify client should maybe not take the shop as a parameter
-        $client = new ShopifyClient(
-            $shop,
-            $this->container->getParameter('kurl.shopify.registry.api_key'),
-            $this->container->getParameter('kurl.shopify.registry.secret')
-        );
+        /** @var ShopifyClient $client */
+        $client = $this->container->get('kurl_shopify.shopify_client');
 
         if (null !== $code = $this->getRequest()->get('code')) {
+            /** @var ShopRepository $repo */
+            $repo = $this->get('doctrine.orm.entity_manager')->getRepository('Kurl\Bundle\ShopifyBundle\Entity\Shop');
             $shop->setAccessToken($client->getAccessToken($code));
             $repo->save($shop);
 
             return $this->redirect(
-                $this->generateUrl('kurl_shopify_registry_installed', array('shop' => $shop->getHostname()))
+                $this->generateUrl('kurl_shopify_default_installed', array('shop' => $shop->getHostname()))
             );
         }
 
@@ -95,7 +84,7 @@ class DefaultController extends Controller
             if (true === $form->isValid()) {
                 return $this->redirect(
                     $client->buildAuthorisationUrl(
-                        $this->container->getParameter('kurl.shopify.registry.scope'),
+                        $this->container->getParameter('kurl.shopify.wishlist.scope'),
                         $this->generateUrl(
                             'kurl_shopify_wishlist_authorise',
                             array(),
@@ -123,12 +112,8 @@ class DefaultController extends Controller
         $shop = new Shop();
         $shop->setHostname($this->getRequest()->get('shop'));
 
-        // TODO the shopify client should maybe not take the shop as a parameter
-        $client = new ShopifyClient(
-            $shop,
-            $this->container->getParameter('kurl.shopify.registry.api_key'),
-            $this->container->getParameter('kurl.shopify.registry.secret')
-        );
+        /** @var ShopifyClient $client */
+        $client = $this->container->get('kurl_shopify.shopify_client');
 
         return array(
             'shop'             => $shop->getHostname(),
@@ -179,13 +164,11 @@ class DefaultController extends Controller
      */
     protected function getShop()
     {
-        if (null === $this->shop)
-        {
+        if (null === $this->shop) {
             /** @var ShopRepository $repo */
             $repo = $this->get('doctrine.orm.entity_manager')->getRepository('Kurl\Bundle\ShopifyBundle\Entity\Shop');
 
-            if (null === $shop = $repo->getByHostName($this->getRequest()->get('shop')))
-            {
+            if (null === $shop = $repo->getByHostName($this->getRequest()->get('shop'))) {
                 $shop = new Shop();
                 $shop->setHostname($this->getRequest()->get('shop'));
             }
@@ -205,16 +188,7 @@ class DefaultController extends Controller
      */
     protected function getClient($name)
     {
-        if (null === $this->serviceFactory) {
-            $this->serviceFactory = Shopify::factory(
-                array(
-                    'api_key' => $this->getShop()->getAccessToken(),
-                    'shop'    => $this->getShop()->getHostname()
-                )
-            );
-        }
-
-        return $this->serviceFactory->get($name);
+        return $this->getServiceFactory()->get($name);
     }
 
     /**
@@ -230,12 +204,8 @@ class DefaultController extends Controller
             $shop = new Shop();
             $shop->setHostname($shopId);
 
-            // TODO the shopify client should maybe not take the shop as a parameter
-            $client = new ShopifyClient(
-                $shop,
-                $this->container->getParameter('kurl.shopify.registry.api_key'),
-                $this->container->getParameter('kurl.shopify.registry.secret')
-            );
+            /** @var ShopifyClient $client */
+            $client = $this->container->get('kurl_shopify.shopify_client');
 
             $response = array(
                 'shop'             => $shop->getHostname(),
@@ -244,6 +214,24 @@ class DefaultController extends Controller
         }
 
         return true === isset($response) ? $response : array();
+    }
 
+    /**
+     * Gets the service factory.
+     *
+     * @return \Guzzle\Service\Builder\ServiceBuilderInterface
+     */
+    protected function getServiceFactory()
+    {
+        if (null === $this->serviceFactory) {
+            $this->serviceFactory = Shopify::factory(
+                array(
+                    'api_key' => $this->getShop()->getAccessToken(),
+                    'shop'    => $this->getShop()->getHostname()
+                )
+            );
+        }
+
+        return $this->serviceFactory;
     }
 }

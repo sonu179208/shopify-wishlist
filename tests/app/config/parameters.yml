@@ -1,0 +1,10 @@
+parameters:
+    locale: en
+    secret: ThisTokenIsNotSoSecretChangeIt
+    kurl.shopify.wishlist.api_key: xxxx
+    kurl.shopify.wishlist.secret: xxxx
+    kurl.shopify.wishlist.scope:
+        - write_content
+        - write_products
+        - write_orders
+        - read_customers

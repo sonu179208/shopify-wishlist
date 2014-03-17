@@ -3,7 +3,7 @@
  * Manipulates custom collections created under the guise of wishlists.
  *
  * @created 13/03/2014 18:32
- * @author chris
+ * @author  chris
  */
 
 namespace Kurl\Bundle\ShopifyBundle\Service;
@@ -44,7 +44,7 @@ class WishlistService
      * TODO correct return value
      *
      * @param int $customerId the customerId
-     * @param int $productId the product Id
+     * @param int $productId  the product Id
      *
      * @return null
      */
@@ -56,7 +56,9 @@ class WishlistService
         $client = $this->builder->get('collects');
 
         // TODO rename this sdk method to add
-        return $client->addToCollection(array('collect' => array('collection_id' => $wishlist['id'], 'product_id' => $productId)));
+        return $client->addToCollection(
+            array('collect' => array('collection_id' => $wishlist['id'], 'product_id' => $productId))
+        );
     }
 
     /**
@@ -66,7 +68,7 @@ class WishlistService
      * TODO check quantities and remove one or add quantity argument
      *
      * @param int $customerId the customerId
-     * @param int $productId the product Id
+     * @param int $productId  the product Id
      *
      * @return null
      */
@@ -77,11 +79,18 @@ class WishlistService
         /** @var CollectsClient $client */
         $client = $this->builder->get('collects');
 
-        // TODO create and rename this sdk method to remove
-        return $client->removeFromCollection(array('collect' => array('collection_id' => $wishlist['id'], 'product_id' => $productId)));
+        $collect = $client
+            ->getCollects(array('collection_id' => $wishlist['id'], 'product_id' => $productId))
+            ->get('collects');
+
+        // Silently ignore either missing products or extras, naughty :).
+        return 1 !== count($collect) ?
+            array() :
+            $client->removeFromCollection(array('id' => $collect[0]['id']));
     }
 
-    public function search($filter) {
+    public function search($filter)
+    {
     }
 
     /**
@@ -94,8 +103,11 @@ class WishlistService
     protected function getWishlist($customerId)
     {
         /** @var CustomCollectionsClient $client */
-        $client = $this->builder->get('custom_collections');
-        $wishlist = $client->getCustomCollections(array('handle' => 'wishlist-' . $customerId))->get('custom_collections');
+        $client   = $this->builder->get('custom_collections');
+        $wishlist = $client->getCustomCollections(array('handle' => 'wishlist-' . $customerId))->get(
+            'custom_collections'
+        );
+
         return 1 === count($wishlist) ? $wishlist[0] : $this->create($customerId);
     }
 
