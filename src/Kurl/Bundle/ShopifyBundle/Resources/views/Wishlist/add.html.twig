@@ -1,6 +1,4 @@
-{% verbatim %}
-{% if customer %}
-    {% assign product_id = '{% endverbatim %}{{ product_id }}{% verbatim %}' %}
+{% verbatim %}{% if customer %}
+    {% assign product_id = {% endverbatim %}{{ product_id }}{% verbatim %} %}
     {% include 'wishlist-added' %}
-{% endif %}
-{% endverbatim %}
+{% endif %}{% endverbatim %}
