@@ -61,3 +61,10 @@ $ setfacl -dR -m u:<http username>:rwx -m g:<group name>:rwx app/cache app/logs
 ```
 $ php app/console cache:clear --env=prod
 ```
+
+rm -rf app/cache/*
+rm -rf app/logs/*
+
+APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data' | grep -v root | head -1 | cut -d\  -f1`
+sudo chmod +a "$APACHEUSER allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
+sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs

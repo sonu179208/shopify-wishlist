@@ -3,14 +3,15 @@
  * WishlistController.php -
  *
  * @created 13/03/2014 16:28
- * @author chris
+ * @author  chris
  */
 
 namespace Kurl\Bundle\ShopifyBundle\Controller;
 
-use Kurl\Bundle\ShopifyBundle\Service\WishlistService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Kurl\Bundle\ShopifyBundle\Service\WishlistService;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class WishlistController
@@ -22,6 +23,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class WishlistController extends DefaultController
 {
     /**
+     * Redirects to the install page.
+     *
+     * @param Request $request
+     *
+     * @return array
+     *
+     * @Template()
+     * @Route("")
+     */
+    public function indexAction(Request $request)
+    {
+        return $this->redirect($this->generateUrl('kurl_shopify_wishlist_install'));
+    }
+
+    /**
      * Adds a product to the customer's wishlist.
      *
      * @Template()
@@ -29,8 +45,18 @@ class WishlistController extends DefaultController
      */
     public function addAction()
     {
+        $productId  = $this->getRequest()->get('product_id');
+        $customerId = $this->getRequest()->get('customer_id');
+
         $service = new WishlistService($this->getServiceFactory());
-        $added = $service->add($this->getRequest()->get('customer_id'), $this->getRequest()->get('product_id'));
+
+        $collect = $service->add($customerId, $productId);
+
+        return array(
+            'product_id'  => $productId,
+            'collect'     => $collect,
+            'customer_id' => $customerId
+        );
     }
 
     /**
