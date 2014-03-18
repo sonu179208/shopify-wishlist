@@ -8,6 +8,7 @@
 
 namespace Kurl\Bundle\ShopifyBundle\Controller;
 
+use Kurl\Bundle\ShopifyBundle\Response\LiquidResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Kurl\Bundle\ShopifyBundle\Service\WishlistService;
@@ -50,12 +51,25 @@ class WishlistController extends DefaultController
 
         $service = new WishlistService($this->getServiceFactory());
 
-        $collect = $service->add($customerId, $productId);
+        try {
+            $collect = $service->add($customerId, $productId);
+        } catch (\Exception $e) {
+            $collect = array(
+                'message' => $e->getMessage()
+            );
+        }
 
-        return array(
-            'product_id'  => $productId,
-            'collect'     => $collect,
-            'customer_id' => $customerId
+        return $this->getResponse(
+            $this->container
+                ->get('templating')
+                ->render(
+                    'KurlShopifyBundle:Wishlist:add.html.twig',
+                    array(
+                        'product_id'  => $productId,
+                        'collect'     => $collect,
+                        'customer_id' => $customerId
+                    )
+                )
         );
     }
 

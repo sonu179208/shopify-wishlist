@@ -6,6 +6,7 @@ use Guzzle\Service\Builder\ServiceBuilderInterface;
 use Kurl\Bundle\ShopifyBundle\Entity\Shop;
 use Kurl\Bundle\ShopifyBundle\Form\InstallType;
 use Kurl\Bundle\ShopifyBundle\Repository\ShopRepository;
+use Kurl\Bundle\ShopifyBundle\Response\LiquidResponse;
 use Kurl\Bundle\ShopifyBundle\Service\ShopifyClient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -236,5 +237,26 @@ class DefaultController extends Controller
         }
 
         return $this->serviceFactory;
+    }
+
+    /**
+     * Gets a stub response.
+     *
+     * @param string $content the content
+     * @param int    $status  the http status
+     * @param array  $headers an array of headers
+     *
+     * @return LiquidResponse the response
+     */
+    protected function getResponse($content, $status = 200, $headers = array())
+    {
+        $response = new LiquidResponse($content, $status, $headers);
+
+        if ('prod' !==  $this->container->getParameter('kernel.environment'))
+        {
+            $response->headers->set('Content-Type', 'text/html');
+        }
+
+        return $response;
     }
 }
