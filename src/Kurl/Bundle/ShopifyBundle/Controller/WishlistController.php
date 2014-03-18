@@ -51,25 +51,21 @@ class WishlistController extends DefaultController
 
         $service = new WishlistService($this->getServiceFactory());
 
+        $parameters = array(
+            'product_id'  => $productId,
+            'customer_id' => $customerId
+        );
+
         try {
-            $collect = $service->add($customerId, $productId);
+            $parameters['collect'] = $service->add($customerId, $productId);
         } catch (\Exception $e) {
-            $collect = array(
-                'message' => $e->getMessage()
-            );
+            $parameters['error_message'] = $e->getMessage();
         }
 
         return $this->getResponse(
             $this->container
                 ->get('templating')
-                ->render(
-                    'KurlShopifyBundle:Wishlist:add.html.twig',
-                    array(
-                        'product_id'  => $productId,
-                        'collect'     => $collect,
-                        'customer_id' => $customerId
-                    )
-                )
+                ->render('KurlShopifyBundle:Wishlist:add.html.twig', $parameters)
         );
     }
 
@@ -81,7 +77,26 @@ class WishlistController extends DefaultController
      */
     public function removeAction()
     {
+        $productId  = $this->getRequest()->get('product_id');
+        $customerId = $this->getRequest()->get('customer_id');
+
         $service = new WishlistService($this->getServiceFactory());
-        $removed = $service->remove($this->getRequest()->get('customer_id'), $this->getRequest()->get('product_id'));
+
+        $parameters = array(
+            'product_id'  => $productId,
+            'customer_id' => $customerId
+        );
+
+        try {
+            $service->remove($customerId, $productId);
+        } catch (\Exception $e) {
+            $parameters['error_message'] = $e->getMessage();
+        }
+
+        return $this->getResponse(
+            $this->container
+                ->get('templating')
+                ->render('KurlShopifyBundle:Wishlist:remove.html.twig', $parameters)
+        );
     }
 }

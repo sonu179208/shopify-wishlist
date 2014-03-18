@@ -1,7 +1,7 @@
 {% verbatim %}{% if customer %}
     {% assign product_id = {% endverbatim %}{{ product_id }}{% verbatim %} %}
     {% assign wishlist_handle = 'wishlist-{% endverbatim %}{{ customer_id }}{% verbatim %}' %}
-    {% include 'wishlist-added' %}
+    {% include 'wishlist-removed' %}
 {% endif %}{% endverbatim %}
 
 {% if error_message is defined %}
