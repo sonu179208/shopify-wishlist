@@ -1,0 +1,12 @@
+{% verbatim %}{% if customer %}
+    {% assign product_id = {% endverbatim %}{{ product_id }}{% verbatim %} %}
+    {% assign wishlist_handle = 'wishlist-{% endverbatim %}{{ customer_id }}{% verbatim %}' %}
+    {% include 'wishlist-removed' %}
+{% endif %}{% endverbatim %}
+
+{% if error_message is defined %}
+<div class="shopify-kurl-io__application-error">
+    <h2>An internal application error has occurred</h2>
+    <p>{{ error_message }}</p>
+</div>
+{% endif %}

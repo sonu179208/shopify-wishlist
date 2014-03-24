@@ -3,6 +3,7 @@
     "license": "MIT",
     "type": "project",
     "description": "The kurl shopify web app.",
+    "version": "1.0.0",
     "autoload": {
         "psr-0": { "": "src/" }
     },
@@ -17,10 +18,6 @@
                     "type": "file"
                 }
             }
-        },
-        {
-            "type": "git",
-            "url": "git@bitbucket.org:kurlltd/shopify-sdk-php.git"
         }
     ],
 

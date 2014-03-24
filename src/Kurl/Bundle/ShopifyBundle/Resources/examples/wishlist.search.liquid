@@ -1,0 +1,13 @@
+{% assign customers = customer_ids | split: ',' %}
+
+<ul>
+    {% for collection in collections %}
+        {% for customer_id in customers %}
+            {% assign wishlist_handle = 'wishlist-' | append: customer_id %}
+
+            {% if collection.handle == wishlist_handle %}
+                <li><a href="/collections/{{ collection.handle }}">{{ collection.title }}</a></li>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</ul>

@@ -1,0 +1,9 @@
+{% assign wishlist_handle = 'wishlist-' | append: customer.id %}
+
+{% for product in collections[wishlist_handle].products %}
+{% if product.id == product_id %}
+<h1>Successfully added <a href="{{ product.url }}">{{ product.title }}</a> to your wishlist</h1>
+
+<p><a href="/pages/wishlist">Go to your wishlist</a></p>
+{% endif %}
+{% endfor %}

@@ -43,7 +43,7 @@ assetic:
     assets:
         bootstrap_css:
             inputs:
-                - %kernel.root_dir%/../web/css/bootstrap.css
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/dist/css/bootstrap.css
                 #- %kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less
                 #- %kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive-utilities.less
             filters:
