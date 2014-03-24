@@ -120,6 +120,8 @@ class WishlistService
      */
     protected function create($customerId)
     {
+        $customer = $this->builder->get('customers')->getCustomer(array('id' => $customerId))->get('customer');
+
         /** @var CustomCollectionsClient $client */
         $client = $this->builder->get('custom_collections');
         /** @var Model $collection */
@@ -127,7 +129,8 @@ class WishlistService
             array(
                 'custom_collection' => array(
                     'title'  => 'wishlist-' . $customerId,
-                    'handle' => 'wishlist-' . $customerId
+                    'handle' => 'wishlist-' . $customerId,
+                    'title'  => sprintf('%1$s %2$s\'s wishlist', $customer['first_name'], $customer['last_name'])
                 )
             )
         );

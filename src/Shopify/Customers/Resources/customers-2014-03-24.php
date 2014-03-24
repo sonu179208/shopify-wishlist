@@ -26,6 +26,22 @@ return array(
                 ),
             )
         ),
+        'GetCustomer' => array(
+            'summary'       => 'Gets a customer by Id.',
+            'httpMethod'    => 'GET',
+            'uri'           => 'admin/customers/{id}.json',
+            'class'         => 'Guzzle\\Service\\Command\\OperationCommand',
+            'responseClass' => 'GetCustomerResult',
+            'responseType'  => 'model',
+            'parameters'    => array(
+                'id' => array(
+                    'location'    => 'uri',
+                    'required'    => true,
+                    'description' => 'The customer Id',
+                    'type'        => 'string',
+                ),
+            )
+        ),
     ),
     'models'      => array(
         'EmptyResult'        => array(
@@ -55,7 +71,7 @@ return array(
                 'last_order_name'      => array('type' => 'string'),
             )
         ),
-        'GetCustomersResult' => array(
+        'GetCustomerResult' => array(
             'additionalProperties' => false,
             'type'                 => 'object',
             'properties'           => array(

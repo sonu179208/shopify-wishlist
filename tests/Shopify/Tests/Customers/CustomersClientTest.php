@@ -130,4 +130,91 @@ class CustomersClientTest extends GuzzleTestCase
         );
         $this->assertEquals('GET', $history->getLastRequest()->getMethod());
     }
+
+    public function testGetCustomer()
+    {
+        /** @var CustomersClient $client */
+        $client = $this->getServiceBuilder()->get('customers');
+
+        $history = new HistoryPlugin();
+        $client->addSubscriber($history);
+
+        $this->setMockResponse(
+            $client,
+            array(
+                'customers/get_customer',
+            )
+        );
+
+        /** @var \Guzzle\Service\Resource\Model $result */
+        $result = $client->getCustomer(array('id' => 207119551));
+
+        $this->assertInstanceOf('Guzzle\Service\Resource\Model', $result);
+
+        $this->assertEquals(
+            array(
+                'accepts_marketing'    => false,
+                'created_at'           => '2014-03-19T16:25:51-04:00',
+                'email'                => 'bob.norman@hostmail.com',
+                'first_name'           => 'Bob',
+                'id'                   => 207119551,
+                'last_name'            => 'Norman',
+                'last_order_id'        => null,
+                'multipass_identifier' => null,
+                'note'                 => null,
+                'orders_count'         => 0,
+                'state'                => 'disabled',
+                'total_spent'          => '0.00',
+                'updated_at'           => '2014-03-19T16:25:51-04:00',
+                'verified_email'       => true,
+                'tags'                 => '',
+                'last_order_name'      => null,
+                'default_address'      => array(
+                    'address1'      => 'Chestnut Street 92',
+                    'address2'      => '',
+                    'city'          => 'Louisville',
+                    'company'       => null,
+                    'country'       => 'United States',
+                    'first_name'    => null,
+                    'id'            => 207119551,
+                    'last_name'     => null,
+                    'phone'         => '555-625-1199',
+                    'province'      => 'Kentucky',
+                    'zip'           => '40202',
+                    'name'          => null,
+                    'province_code' => 'KY',
+                    'country_code'  => 'US',
+                    'country_name'  => 'United States',
+                    'default'       => true,
+                ),
+                'addresses'            => array(
+                    array(
+                        'address1'      => 'Chestnut Street 92',
+                        'address2'      => '',
+                        'city'          => 'Louisville',
+                        'company'       => null,
+                        'country'       => 'United States',
+                        'first_name'    => null,
+                        'id'            => 207119551,
+                        'last_name'     => null,
+                        'phone'         => '555-625-1199',
+                        'province'      => 'Kentucky',
+                        'zip'           => '40202',
+                        'name'          => null,
+                        'province_code' => 'KY',
+                        'country_code'  => 'US',
+                        'country_name'  => 'United States',
+                        'default'       => true,
+                    ),
+                ),
+            ),
+            $result->get('customer')
+        );
+
+        $this->assertEquals(
+            'https://apple.myshopify.com/admin/customers/207119551.json',
+            $history->getLastRequest()->getUrl()
+        );
+        $this->assertEquals('GET', $history->getLastRequest()->getMethod());
+    }
 }

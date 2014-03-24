@@ -13,6 +13,7 @@ use Shopify\Common\Client\ClientBuilder;
 
 /**
  * @method Model getCustomers(array $args = array()) {@command Customers GetCustomers}
+ * @method Model getCustomer(array $args = array()) {@command Customers GetCustomer}
  *
  * Class CustomerClient
  *

@@ -43,6 +43,13 @@ class WishlistServiceTest extends GuzzleTestCase
             )
         );
 
+        $this->setMockResponse(
+            $builder->get('customers'),
+            array(
+                'wishlist_service/get_customer',
+            )
+        );
+
         $collection = $service->add(138301351, 921728736);
 
         $this->assertEquals(
