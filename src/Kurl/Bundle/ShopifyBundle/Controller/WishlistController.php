@@ -8,6 +8,8 @@
 
 namespace Kurl\Bundle\ShopifyBundle\Controller;
 
+use Guzzle\Plugin\History\HistoryPlugin;
+use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
 use Kurl\Bundle\ShopifyBundle\Response\LiquidResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -97,6 +99,48 @@ class WishlistController extends DefaultController
             $this->container
                 ->get('templating')
                 ->render('KurlShopifyBundle:Wishlist:remove.html.twig', $parameters)
+        );
+    }
+
+    /**
+     * Provides a thin proxy between the shopify shop and this app. Basically the query request value is injected into
+     * a template as you cannot do this in the shopify API.
+     *
+     * @param Request $request
+     *
+     * @Template()
+     * @Route("/search")
+     *
+     * @return \Kurl\Bundle\ShopifyBundle\Response\LiquidResponse
+     */
+    public function searchAction(Request $request)
+    {
+        $query = $request->get('query');
+        $service = new WishlistService($this->getServiceFactory());
+
+        $parameters = array(
+            'customer_ids' => '',
+            'query' => $query,
+        );
+
+        try {
+            $customerIds = array();
+            $customers = $service->search($query);
+            foreach ($customers as $customer)
+            {
+                $customerIds[] = $customer['id'];
+            }
+
+            $parameters['customer_ids'] = implode(',', $customerIds);
+
+        } catch (\Exception $e) {
+            $parameters['error_message'] = $e->getMessage();
+        }
+
+        return $this->getResponse(
+            $this->container
+                ->get('templating')
+                ->render('KurlShopifyBundle:Wishlist:search.html.twig', $parameters)
         );
     }
 }

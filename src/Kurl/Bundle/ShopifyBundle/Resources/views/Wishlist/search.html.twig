@@ -1,0 +1,12 @@
+{% verbatim %}{% assign query = '{% endverbatim %}{{ query }}{% verbatim %}' %}
+{% assign customer_ids = '{% endverbatim %}{{ customer_ids }}{% verbatim %}' %}
+{% include 'wishlist-search' %}
+{% endverbatim %}
+
+{% if error_message is defined %}
+    <div class="shopify-kurl-io__application-error">
+        <h2>An internal application error has occurred</h2>
+        <p>{{ error_message }}</p>
+    </div>
+{% else %}
+{% endif %}

@@ -8,10 +8,12 @@
 
 namespace Kurl\Bundle\ShopifyBundle\Service;
 
+use Guzzle\Plugin\History\HistoryPlugin;
 use Guzzle\Service\Builder\ServiceBuilderInterface;
 use Guzzle\Service\Resource\Model;
 use Shopify\Collects\CollectsClient;
 use Shopify\CustomCollections\CustomCollectionsClient;
+use Shopify\Customers\CustomersClient;
 
 /**
  * Class WishlistService
@@ -89,10 +91,6 @@ class WishlistService
             $client->removeFromCollection(array('id' => $collect[0]['id']));
     }
 
-    public function search($filter)
-    {
-    }
-
     /**
      * Gets a wishlist, creates one if it does not exist.
      *
@@ -135,5 +133,27 @@ class WishlistService
         );
 
         return $collection->get('custom_collection');
+    }
+
+    /**
+     * Gets customers based on a query.
+     *
+     * @param string $query the query term
+     *
+     * @return mixed|null
+     */
+    public function search($query)
+    {
+        /** @var CustomersClient $client */
+        $client = $this->builder->get('customers');
+
+        $history = new HistoryPlugin();
+
+        $client->addSubscriber($history);
+
+        /** @var Model $customers */
+        $customers = $client->getCustomers(array('query' => $query));
+
+        return $customers->get('customers');
     }
 }

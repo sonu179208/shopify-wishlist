@@ -12,7 +12,7 @@ return array(
         'default_settings'   => array(
             'params' => array()
         ),
-        'assets'           => array(
+        'assets'             => array(
             'alias'   => 'Assets',
             'extends' => 'default_settings',
             'class'   => 'Shopify\Assets\AssetsClient'
@@ -26,6 +26,11 @@ return array(
             'alias'   => 'CustomCollections',
             'extends' => 'default_settings',
             'class'   => 'Shopify\CustomCollections\CustomCollectionsClient'
+        ),
+        'customers'          => array(
+            'alias'   => 'Customers',
+            'extends' => 'default_settings',
+            'class'   => 'Shopify\Customers\CustomersClient'
         ),
         'shop'               => array(
             'alias'   => 'Shop',
