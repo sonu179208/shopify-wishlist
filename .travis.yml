@@ -11,4 +11,4 @@ before_script:
   - php app/console doctrine:database:create
   - php app/console doctrine:schema:create
 
-script: phpunit -c app
+script: phpunit
