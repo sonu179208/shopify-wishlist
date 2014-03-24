@@ -272,6 +272,16 @@ you must add this feature.
 </ul>
 ```
 
+#### Public wishlist pages
+
+The public wishlist pages (those being viewed by another user) by default use the collections template. If you do not
+wish this to be the case a new template must be added with the type "collection" and this must be assigned to the
+collection page being viewed. This url is the one used in the ```Search wishlists``` template.
+
+### Other useful information
+
+All application urls default to ```/app/wishlist/<action>``` I have not tested altering this behaviour.
+
 ## Setup instructions
 
 Checkout the project to the directory of your choice:
@@ -318,6 +328,22 @@ Clearing the caches cures many ills, execute the following to clear the producti
 
 ```
 $ php app/console cache:clear --env=prod
+```
+
+### Testing the project
+
+Assuming a developer has done a composer update or install with ```--dev``` the tests can be executed by issuing the
+following.
+
+```sh
+$ bin/phpunit
+```
+
+Alternatively the ant tasks can be called.
+
+```sh
+$ ant test
+$ ant report-coverage
 ```
 
 
