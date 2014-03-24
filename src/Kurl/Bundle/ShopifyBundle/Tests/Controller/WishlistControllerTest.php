@@ -17,25 +17,25 @@ class WishlistControllerTest extends WebTestCase
     /**
      * Tests the search action.
      */
-    public function testSearchAction()
+    public function testEmptySearchAction()
     {
-//        /** @var \Symfony\Bundle\FrameworkBundle\Client $client */
-//        $client = static::$kernel->getContainer()->get('test.client');
-//
-//        $client->request('GET', '/wishlist/search?shop=example.myshopify.com&query=Bob');
-//
-//        /** @var \Symfony\Component\HttpFoundation\Response $response */
-//        $response = $client->getResponse();
-//
-//        $this->assertEquals(
-//            <<<EOT
-//{% assign query = 'Bob' %}
-//{% assign customer_ids = '' %}
-//{% include 'wishlist-search' %}
-//EOT
-//            ,
-//            trim($response->getContent())
-//        );
+        /** @var \Symfony\Bundle\FrameworkBundle\Client $client */
+        $client = static::$kernel->getContainer()->get('test.client');
+
+        $client->request('GET', '/wishlist/search?shop=example.myshopify.com');
+
+        /** @var \Symfony\Component\HttpFoundation\Response $response */
+        $response = $client->getResponse();
+
+        $this->assertEquals(
+            <<<EOT
+{% assign query = '' %}
+{% assign customer_ids = '' %}
+{% include 'wishlist-search' %}
+EOT
+            ,
+            trim($response->getContent())
+        );
     }
 
     /**
