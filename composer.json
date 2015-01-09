@@ -3,7 +3,7 @@
     "license": "MIT",
     "type": "project",
     "description": "The kurl shopify web app.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "autoload": {
         "psr-0": { "": "src/" }
     },
@@ -24,7 +24,6 @@
     "require": {
         "php": ">=5.3.3",
         "ext-sqlite3": "*",
-        "heroku/heroku-buildpack-php": "*",
         "symfony/symfony": "2.3.*",
         "doctrine/orm": ">=2.2.3,<2.4-dev",
         "doctrine/doctrine-bundle": "1.2.*",
@@ -47,6 +46,7 @@
         "guzzle/guzzle": "~3.7"
     },
     "require-dev": {
+        "heroku/heroku-buildpack-php": "*",
         "phpunit/phpunit": "3.7.*"
     },
     "scripts": {
