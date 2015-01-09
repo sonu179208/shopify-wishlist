@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="The kurl.co.uk web app" default="test">
+<project name="A shopify web app" default="test">
 
     <target name="prepare" depends="clean" description="Prepares the build directory">
         <mkdir dir="${basedir}/bin" />
@@ -13,9 +13,6 @@
         <delete includeemptydirs="true" dir="data" quiet="true"/>
         <delete includeemptydirs="true" dir="app/cache" quiet="true"/>
         <delete includeemptydirs="true" dir="app/logs" quiet="true"/>
-        <delete includeemptydirs="true" dir="vendor" quiet="true"/>
-        <delete file="composer.lock"/>
-        <delete file="composer.phar"/>
     </target>
 
     <target name="init" depends="prepare" description="Sets up all components required for the project">
