@@ -116,25 +116,26 @@ class WishlistController extends DefaultController
     public function searchAction(Request $request)
     {
         $query = $request->get('query');
-        $service = new WishlistService($this->getServiceFactory());
 
         $parameters = array(
             'customer_ids' => '',
-            'query' => $query,
+            'query'        => $query,
         );
 
-        try {
-            $customerIds = array();
-            $customers = $service->search($query);
-            foreach ($customers as $customer)
-            {
-                $customerIds[] = $customer['id'];
+        if (null !== $query) {
+            $service = new WishlistService($this->getServiceFactory());
+
+            try {
+                $customerIds = array();
+                $customers   = $service->search($query);
+                foreach ($customers as $customer) {
+                    $customerIds[] = $customer['id'];
+                }
+
+                $parameters['customer_ids'] = implode(',', $customerIds);
+            } catch (\Exception $e) {
+                $parameters['error_message'] = $e->getMessage();
             }
-
-            $parameters['customer_ids'] = implode(',', $customerIds);
-
-        } catch (\Exception $e) {
-            $parameters['error_message'] = $e->getMessage();
         }
 
         return $this->getResponse(
